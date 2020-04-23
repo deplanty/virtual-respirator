@@ -12,8 +12,9 @@ with open(".mpp_config") as fid:
 
 class Application(ThemedTk):
     def __init__(self):
-        # Themes : arc, breeze
-        super().__init__(theme="arc")
+        # Themes : arc, breeze, equilux, radiance
+        super().__init__()
+        self.configure(theme="arc")
 
         self.withdraw()
         self.title("Simulateur")

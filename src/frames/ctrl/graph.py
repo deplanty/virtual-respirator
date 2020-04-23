@@ -23,8 +23,7 @@ class FrameGraph(ttk.Frame):
 
         self.axes = self.ui.fig.subplots(4, 1, sharex=True)
         self.ui.fig.tight_layout()
-
-        self.line_paw, *_ = self.axes[0].plot([], [])
+        self.ui.fig.subplots_adjust(hspace=0.15)
 
         self.axes[0].set_title("Courbes théoriques")
         self.axes[0].set_ylabel("Paw (cmH2O)")
@@ -48,7 +47,8 @@ class FrameGraph(ttk.Frame):
         for curve in self.array:
             curve.clear()
 
-        self.add(values)
+        if values:
+            self.add(values)
 
 
     def add(self, values:list):
@@ -78,67 +78,10 @@ class FrameGraph(ttk.Frame):
         colors = ["magenta", "blue", "gray", "orange"]
         for ax, curve, color in zip(self.axes, self.array[1:], colors):
             ax.plot(time, curve, color)
-            ax.grid(True, linestyle="dashed")
 
         for ax in self.axes:
             ax.relim()
             ax.autoscale_view()
-
-        self.ui.canvas.draw()
-
-
-    def draw_one_time(self, values:list):
-        """
-        Draws an element in the graphs.
-
-        Args:
-            values (list): time, paw, flow, volume and pmus
-        """
-
-        time = values.pop(0)
-        # for ax, val in zip(self.axes, values):
-        #     ax.add_line([time, val])
-
-        self.line_paw.set_xdata(np.append(self.line_paw.get_xdata(), time))
-        self.line_paw.set_ydata(np.append(self.line_paw.get_ydata(), values[0]))
-
-        # self.ui.canvas.draw()
-        self.axes[0].relim()
-        self.axes[0].autoscale_view()
-        print(time)
-
-
-    def draw_from_file(self, file:str):
-        """
-        Draws a graph from a text file.
-
-        Args:
-            file (str): text file with data
-        """
-
-        with open(file) as fid:
-            header = fid.readline().rstrip().split("\t")
-            array = [list() for _ in header]
-            for line in fid:
-                line = line.rstrip().split("\t")
-                for i, element in enumerate(line):
-                    array[i].append(float(element))
-
-        time = array.pop(0)
-        time_label = header.pop(0)
-
-        # Clear curves
-        for ax in self.axes:
-            for line in ax.lines:
-                line.remove()
-
-        colors = ["magenta", "blue", "gray", "orange"]
-        for ax, curve, label, color in zip(self.axes, array, header, colors):
-            ax.plot(time, curve, color)
-            ax.grid(True, linestyle="dashed")
-
-        for ax in self.axes:
-            ax.relim()
-            ax.autoscale_view()
+        self.ui.fig.align_ylabels(self.axes)
 
         self.ui.canvas.draw()
