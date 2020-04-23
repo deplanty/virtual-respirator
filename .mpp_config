@@ -1,0 +1,10 @@
+{
+    "name": "Virtual Respirator",
+    "author": "deplanty",
+    "version": "0.1.0",
+    "console": true,
+    "icon": "resources/images/icon.ico",
+    "hidden-imports": [
+        "pkg_resources.py2_warn"
+    ]
+}
