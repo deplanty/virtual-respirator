@@ -1,5 +1,7 @@
+from src.objects.modes import RespiMode
 
-class VPC:
+
+class VPC(RespiMode):
     """
     Ventilation Pressure Control
 

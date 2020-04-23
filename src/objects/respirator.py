@@ -1,5 +1,7 @@
 from src.objects import Patient
 
+from src.objects.modes import RespiMode
+
 
 class Respirator:
     """
@@ -12,7 +14,7 @@ class Respirator:
         t_step (float): step between two time values
     """
 
-    def __init__(self, patient:Patient, mode, t_max:float, t_step:float=0.02):
+    def __init__(self, patient:Patient, mode:RespiMode, t_max:float, t_step:float=0.02):
         self.t = 0
         self.t_max = t_max
         self.t_step = t_step

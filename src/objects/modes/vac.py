@@ -1,5 +1,7 @@
+from src.objects.modes import RespiMode
 
-class VAC:
+
+class VAC(RespiMode):
     """
     Ventilation Volume Control
 

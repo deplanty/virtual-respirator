@@ -1,5 +1,7 @@
+from src.objects.modes import RespiMode
 
-class VSAI:
+
+class VSAI(RespiMode):
     """
     Respiratory mode : Ventilation Volume Control.
 
