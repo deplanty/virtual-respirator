@@ -15,6 +15,10 @@ class Pmus:
         self.period = period
         self.ti = ti
 
+        self.pmus_inc = 0.7  # % of ti
+        self.pmus_dec = 1 - self.pmus_inc  # % of ti
+
+
     def get(self, t:float):
         """
         Returns the effort at time t.
@@ -26,17 +30,46 @@ class Pmus:
             float: pmus value
         """
 
+        # Current time in cycle
         t %= self.period
 
-        if t <= self.ti * 0.6:
-            a = -self.pmus/(self.ti * 0.6)
-            return a * t
+        # Increasing Pmus
+        if t <= self.ti * self.pmus_inc:
+            pt_a = [0, 0]
+            pt_b = [self.ti * self.pmus_inc, - self.pmus]
+            pt_a_ = [2 * self.ti * self.pmus_inc, 0]
+            a, b, c = self.coefficient(pt_a, pt_b, pt_a_)
+            return a * t**2 + b * t + c
+        # Decreasing Pmus
         elif t < self.ti:
-            a = self.pmus/(self.ti * 0.4)
-            b = -a * self.ti
-            return a * t + b
+            pt_c = [self.ti * (self.pmus_inc - self.pmus_dec), 0]
+            pt_b = [self.ti * self.pmus_inc, - self.pmus]
+            pt_c_ = [self.ti, 0]
+            a, b, c = self.coefficient(pt_c, pt_b, pt_c_)
+            return a * t**2 + b * t + c
+        # Expiration
         else:
             return 0
+
+
+    def coefficient(self, pt_a:list, pt_b:list, pt_c:list):
+        x_1, y_1 = pt_a
+        x_2, y_2 = pt_b
+        x_3, y_3 = pt_c
+
+        a =   y_1 / ((x_1 - x_2) * (x_1 - x_3)) \
+            + y_2 / ((x_2 - x_1) * (x_2 - x_3)) \
+            + y_3 / ((x_3 - x_1) * (x_3 - x_2))
+
+        b = - y_1 * (x_2 + x_3) / ((x_1 - x_2) * (x_1 - x_3)) \
+            - y_2 * (x_1 + x_3) / ((x_2 - x_1) * (x_2 - x_3)) \
+            - y_3 * (x_1 + x_2) / ((x_3 - x_1) * (x_3 - x_2))
+
+        c =   y_1 * x_2 * x_3 / ((x_1 - x_2) *( x_1 - x_3)) \
+            + y_2 * x_1 * x_3 / ((x_2 - x_1) * (x_2 - x_3)) \
+            + y_3 * x_1 * x_2 / ((x_3 - x_1) * (x_3 - x_2))
+
+        return a, b, c
 
 
 class Patient:
