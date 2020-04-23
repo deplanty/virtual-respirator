@@ -6,16 +6,13 @@ class Respirator:
     A Respirator object.
 
     Args:
-        file (str): file where to write output values
-        mode (RespiMode): respiratory mode used
         patient (Patient): patient used
+        mode (RespiMode): respiratory mode used
         t_max (float): duration of the simulation
         t_step (float): step between two time values
     """
 
-    def __init__(self, file:str, mode, patient:Patient, t_max:float, t_step:float=0.02):
-        self.file = file
-
+    def __init__(self, patient:Patient, mode, t_max:float, t_step:float=0.02):
         self.t = 0
         self.t_max = t_max
         self.t_step = t_step
@@ -25,20 +22,6 @@ class Respirator:
 
         self.patient = patient
         self.mode = mode
-
-        self.fid = None
-
-
-    def __enter__(self):
-        self.fid = open(self.file, "w")
-        print("time", "paw", "flow", "volume", "pmus", sep="\t", file=self.fid)
-        print(*self.as_array(), sep="\t", file=self.fid)
-        return self
-
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.fid.close()
-        self.fid = None
 
 
     @property
@@ -74,25 +57,11 @@ class Respirator:
             self.flow = (self.paw - self.pmus - (self.volume / self.patient.c)) / self.patient.r
         # Volume
         self.volume += self.flow * self.t_step
-        # Write in file
-        if self.fid:
-            self.write()
+
         # Next step
         array = self.as_array()
         self.t += self.t_step
         return array
-
-
-    def write(self):
-        print(
-            self.t,
-            self.paw,
-            self.flow * 60,
-            self.volume * 1000,
-            self.pmus,
-            sep="\t",
-            file=self.fid
-        )
 
 
     def as_array(self):

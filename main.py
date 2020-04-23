@@ -65,21 +65,23 @@ class Application(ThemedTk):
         Runs the simulation with all the parameters.
         """
 
+        # Change cursor
         self.configure(cursor="wait")
         self.update()
 
+        # Get simulation parameters
         patient = self.f_patient.get()
         mode = self.f_respi.get()
         duration = self.f_simu.get()
 
-        with Respirator("plot.txt", mode, patient, duration) as respi:
-            self.f_graph.init()
-            self.f_graph.add(respi.as_array())
-            for values in respi.loop():
-                self.f_graph.add(values)
-            self.f_graph.show()
-        # self.f_graph.draw_from_file("plot.txt")
+        # Process simulation
+        respi = Respirator(patient, mode, duration)
+        self.f_graph.init(respi.as_array())
+        for values in respi.loop():
+            self.f_graph.add(values)
+        self.f_graph.show()
 
+        # Change cursor back to normal
         self.configure(cursor="arrow")
 
 

@@ -37,13 +37,18 @@ class FrameGraph(ttk.Frame):
             ax.grid(True, linestyle="dashed")
 
 
-    def init(self):
+    def init(self, values=None):
         """
         Initializes the graph to get values from the simulation.
+
+        Args:
+            values (list): initalization values
         """
 
         for curve in self.array:
             curve.clear()
+
+        self.add(values)
 
 
     def add(self, values:list):
