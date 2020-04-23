@@ -5,9 +5,9 @@ import src.constants as cst
 
 
 class ViewRespirator:
-    def __init__(self, master):
+    def __init__(self, master:tk.Widget):
 
-        # Variable
+        # Variables
         self.var_mode = tk.StringVar(master)
 
         # Elements

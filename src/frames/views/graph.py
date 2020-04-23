@@ -6,13 +6,11 @@ from matplotlib.figure import Figure
 
 
 class ViewGraph:
-    def __init__(self, master):
+    def __init__(self, master:tk.Widget):
 
         # Elements
         self.fig = Figure(figsize=(5, 4), dpi=100)
-
         self.canvas = FigureCanvasTkAgg(self.fig, master=master)
         self.canvas.get_tk_widget().pack(fill="both", expand=True)
-
         self.toolbar = NavigationToolbar2Tk(self.canvas, master)
         self.toolbar.update()

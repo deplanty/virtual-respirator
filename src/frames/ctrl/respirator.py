@@ -7,7 +7,7 @@ from src.frames.ctrl.modes import FrameModeVAC, FrameModeVPC, FrameModeVSAI
 
 
 class FrameRespirator(ttk.LabelFrame):
-    def __init__(self, master):
+    def __init__(self, master:tk.Widget):
         super().__init__(master)
         self.configure(text="Respirateur")
 
@@ -28,7 +28,7 @@ class FrameRespirator(ttk.LabelFrame):
 
     def set_default(self):
         """
-        Sets the default values in the window
+        Sets the default values in the window.
         """
 
         with open("resources/modes.json") as fid:
@@ -42,7 +42,10 @@ class FrameRespirator(ttk.LabelFrame):
     def load_mode(self, *args):
         """
         Loads the current selected mode in the window.
-        And removes the previous one
+        And removes the previous one.
+
+        Args:
+            args (list): events from tkinter bindings
         """
 
         # Get selected frame
@@ -63,7 +66,7 @@ class FrameRespirator(ttk.LabelFrame):
 
     def get(self):
         """
-        Returns a mode object with the parameters
+        Returns a mode object with the parameters.
         """
 
         return self.frame.get()

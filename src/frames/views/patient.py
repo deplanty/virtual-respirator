@@ -6,7 +6,7 @@ from src.objects import Patient
 
 
 class ViewPatient:
-    def __init__(self, master):
+    def __init__(self, master:tk.Widget):
 
         # Variables
         self.var_r = tk.IntVar(master)

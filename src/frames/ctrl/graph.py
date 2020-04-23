@@ -5,7 +5,7 @@ from src.frames.views import ViewGraph
 
 
 class FrameGraph(ttk.Frame):
-    def __init__(self, master):
+    def __init__(self, master:tk.Widget):
         super().__init__(master)
 
         self.ui = ViewGraph(self)
@@ -14,6 +14,9 @@ class FrameGraph(ttk.Frame):
 
 
     def setup_graph(self):
+        """
+        Initializes the graph in the window.
+        """
 
         self.axes = self.ui.fig.subplots(4, 1, sharex=True)
         self.ui.fig.tight_layout()
@@ -28,21 +31,23 @@ class FrameGraph(ttk.Frame):
         for ax in self.axes:
             ax.grid(True, linestyle="dashed")
 
-    def draw_one_time(self, values):
+
+    def draw_one_time(self, values:list):
         """
-        Draws an element in the graphs
+        Draws an element in the graphs.
 
         Args:
-            list: time, paw, flow, volume, pmus
+            values (list): time, paw, flow, volume and pmus
         """
 
         time = values.pop(0)
         # for ax, val in zip(self.axes, values):
         #     ax.add_line([time, val])
 
-    def draw_from_file(self, file):
+
+    def draw_from_file(self, file:str):
         """
-        Draws a graph from a text file
+        Draws a graph from a text file.
 
         Args:
             file (str): text file with data

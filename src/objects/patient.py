@@ -1,7 +1,7 @@
 
 class Pmus:
     """
-    A respiratory effort
+    A respiratory effort.
 
     Args:
         pmus (int): maximum effort (cmH2O)
@@ -15,9 +15,9 @@ class Pmus:
         self.period = period
         self.ti = ti
 
-    def get(self, t):
+    def get(self, t:float):
         """
-        Return the effort at time t
+        Returns the effort at time t.
 
         Args:
             t (float): time of simulation (s)
@@ -41,7 +41,7 @@ class Pmus:
 
 class Patient:
     """
-    A patient with his properties
+    A patient with his properties.
 
     Args:
         r (int): airway resistances (cmH2O/(l/s))

@@ -7,7 +7,7 @@ from src.objects.modes import VSAI
 
 
 class FrameModeVSAI(ttk.Frame):
-    def __init__(self, master):
+    def __init__(self, master:tk.Widget):
         super().__init__(master)
 
         self.ui = ViewModeVSAI(self)

@@ -7,16 +7,17 @@ from src.objects import Patient
 
 
 class FramePatient(ttk.LabelFrame):
-    def __init__(self, master):
+    def __init__(self, master:tk.Widget):
         super().__init__(master)
         self.configure(text="Patient")
 
         self.ui = ViewPatient(self)
         self.set_default()
 
+
     def set_default(self):
         """
-        Sets the default values and limits for the variables
+        Sets the default values and limits for the variables.
         """
 
         with open("resources/patient.json") as fid:
@@ -41,7 +42,7 @@ class FramePatient(ttk.LabelFrame):
 
     def get(self):
         """
-        Returns a patient object with the parameters
+        Returns a patient object with the parameters.
         """
 
         return Patient(

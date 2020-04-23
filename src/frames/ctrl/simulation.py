@@ -5,7 +5,7 @@ from src.frames.views import ViewSimulation
 
 
 class FrameSimuation(ttk.LabelFrame):
-    def __init__(self, master):
+    def __init__(self, master:tk.Widget):
         super().__init__(master)
         self.configure(text="Simulation")
 
@@ -16,7 +16,7 @@ class FrameSimuation(ttk.LabelFrame):
 
     def set_default(self):
         """
-        Sets the default values and limits for the variables
+        Sets the default values and limits for the variables.
         """
 
         self.ui.var_time.set(10)
@@ -25,7 +25,7 @@ class FrameSimuation(ttk.LabelFrame):
 
     def get(self):
         """
-        Returns the duration of the simulation
+        Returns the duration of the simulation.
         """
 
         return self.ui.var_time.get()

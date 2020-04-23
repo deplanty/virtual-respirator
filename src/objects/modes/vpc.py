@@ -11,7 +11,7 @@ class VPC:
         trigger (float): inspiratory triggr (l/min)
     """
 
-    def __init__(self, peep, p_support, ti, br, trigger):
+    def __init__(self, peep:int, p_support:int, ti:float, br:int, trigger:float):
 
         self.control = "pressure"
         self.peep = peep
@@ -36,7 +36,7 @@ class VPC:
 
     def get(self, t):
         """
-        Return the paramters at time t
+        Returns the paramters at time t.
 
         Args:
             t (float): time of simulation (s)
@@ -63,9 +63,9 @@ class VPC:
             return None
 
 
-    def process_trigger(self, flow, t):
+    def process_trigger(self, flow:float, t:float):
         """
-        Detects if there is a new effort from the patient
+        Detects if there is a new effort from the patient.
 
         Args:
             flow (float): flow (l/min)

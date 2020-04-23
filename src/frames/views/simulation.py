@@ -5,7 +5,7 @@ import src.constants as cst
 
 
 class ViewSimulation:
-    def __init__(self, master):
+    def __init__(self, master:tk.Widget):
 
         # Variables
         self.var_time = tk.DoubleVar(master)

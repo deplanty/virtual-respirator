@@ -5,7 +5,7 @@ import src.constants as cst
 
 
 class ViewModeVPC:
-    def __init__(self, master):
+    def __init__(self, master:tk.Widget):
 
         # Variables
         self.var_peep = tk.IntVar(master)

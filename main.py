@@ -23,6 +23,7 @@ class Application(ThemedTk):
         self.state("zoomed")
         self.deiconify()
 
+
     def setup_style(self):
         """
         Sets-up own style in the window.
@@ -34,6 +35,7 @@ class Application(ThemedTk):
         self.style = ttk.Style(self)
         for name, params in style.items():
             self.style.configure(name, **params)
+
 
     def setup_ui(self):
         """
@@ -56,6 +58,7 @@ class Application(ThemedTk):
 
         self.f_graph = FrameGraph(self)
         self.f_graph.pack(side="left", fill="both", expand=True)
+
 
     def simulate(self):
         """

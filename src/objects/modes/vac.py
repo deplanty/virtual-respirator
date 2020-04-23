@@ -12,7 +12,7 @@ class VAC:
         trigger (float): inspiratory triggr (l/min)
     """
 
-    def __init__(self, peep, vt, flow, br, pause_inspi, trigger):
+    def __init__(self, peep:int, vt:int, flow:int, br:int, pause_inspi:float, trigger:float):
 
         self.control = "flow"
         self.peep = peep
@@ -28,18 +28,15 @@ class VAC:
         self.t_start_inspi = 0  # (s)
         self.state = "inspi"
 
+
     @property
     def period(self):
-        """
-        unit: s
-        """
-
         return 60 / self.br
 
 
-    def get(self, t):
+    def get(self, t:float):
         """
-        Return the paramters at time t
+        Returns the paramters at time t.
 
         Args:
             t (float): time of simulation (s)
@@ -68,9 +65,9 @@ class VAC:
             return None
 
 
-    def process_trigger(self, flow, t):
+    def process_trigger(self, flow:float, t:float):
         """
-        Detects if there is a new effort from the patient
+        Detects if there is a new effort from the patient.
 
         Args:
             flow (float): flow (l/min)

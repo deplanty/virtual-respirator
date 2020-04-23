@@ -7,11 +7,12 @@ from src.objects.modes import VPC
 
 
 class FrameModeVPC(ttk.Frame):
-    def __init__(self, master):
+    def __init__(self, master:tk.Widget):
         super().__init__(master)
 
         self.ui = ViewModeVPC(self)
         self.set_default()
+
 
     def set_default(self):
         """

@@ -1,6 +1,19 @@
+from src.objects import Patient
+
 
 class Respirator:
-    def __init__(self, file, mode, patient, t_max, t_step=0.02):
+    """
+    A Respirator object.
+
+    Args:
+        file (str): file where to write output values
+        mode (RespiMode): respiratory mode used
+        patient (Patient): patient used
+        t_max (float): duration of the simulation
+        t_step (float): step between two time values
+    """
+
+    def __init__(self, file:str, mode, patient:Patient, t_max:float, t_step:float=0.02):
         self.file = file
 
         self.t = 0
@@ -15,23 +28,30 @@ class Respirator:
 
         self.fid = None
 
+
     def __enter__(self):
         self.fid = open(self.file, "w")
         print("time", "paw", "flow", "volume", "pmus", sep="\t", file=self.fid)
         print(*self.as_array(), sep="\t", file=self.fid)
         return self
 
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.fid.close()
         self.fid = None
+
 
     @property
     def pmus(self):
         return self.patient.pmus.get(self.t)
 
+
     def next(self):
         """
-        Computes the parameters for the time
+        Computes the parameters for the current time.
+
+        Returns:
+            list: time, paw, flow, volume and pmus
         """
 
         # Volume control
@@ -52,15 +72,16 @@ class Respirator:
                 self.paw = self.mode.peep
                 self.mode.process_trigger(self.flow, self.t)
             self.flow = (self.paw - self.pmus - (self.volume / self.patient.c)) / self.patient.r
-
+        # Volume
         self.volume += self.flow * self.t_step
-
+        # Write in file
         if self.fid:
             self.write()
-
+        # Next step
         array = self.as_array()
         self.t += self.t_step
         return array
+
 
     def write(self):
         print(
@@ -73,9 +94,10 @@ class Respirator:
             file=self.fid
         )
 
+
     def as_array(self):
         """
-        Returns the values as an array
+        Returns the values as an array.
 
         Returns:
             list: time, paw, flow, volume and pmus
@@ -83,9 +105,13 @@ class Respirator:
 
         return [self.t, self.paw, self.flow * 60, self.volume * 1000, self.pmus]
 
+
     def loop(self):
         """
-        Generator
+        Loop over the simulation as a generator.
+
+        Returns:
+            list: time, paw, flow volume and pmus
         """
 
         while self.t < self.t_max:

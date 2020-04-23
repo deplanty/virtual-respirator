@@ -1,7 +1,7 @@
 
 class VSAI:
     """
-    Ventilation Volume Control
+    Respiratory mode : Ventilation Volume Control.
 
     Args:
         peep (int): positive end-expiratory pressure (cmH2O)
@@ -10,7 +10,7 @@ class VSAI:
         trigger (float): inspiratory triggr (l/min)
     """
 
-    def __init__(self, peep, ai, ti, trigger):
+    def __init__(self, peep:int, ai:int, ti:float, trigger:float):
 
         self.control = "pressure"
         self.peep = peep
@@ -23,9 +23,9 @@ class VSAI:
         self.state = "inspi"
 
 
-    def get(self, t):
+    def get(self, t:float):
         """
-        Return the paramters at time t
+        Returns the paramters at time t.
 
         Args:
             t (float): time of simulation (s)
@@ -47,9 +47,9 @@ class VSAI:
             return None
 
 
-    def process_trigger(self, flow, t):
+    def process_trigger(self, flow:float, t:float):
         """
-        Detects if there is a new effort from the patient
+        Detects if there is a new effort from the patient.
 
         Args:
             flow (float): flow (l/min)
