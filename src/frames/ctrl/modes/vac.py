@@ -5,8 +5,10 @@ from tkinter import ttk
 from src.frames.views.modes import ViewModeVAC
 from src.objects.modes import VAC
 
+from .mode import FrameMode
 
-class FrameModeVAC(ttk.Frame):
+
+class FrameModeVAC(FrameMode, ttk.Frame):
     def __init__(self, master:tk.Widget):
         super().__init__(master)
 

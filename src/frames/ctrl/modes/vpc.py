@@ -5,8 +5,10 @@ from tkinter import ttk
 from src.frames.views.modes import ViewModeVPC
 from src.objects.modes import VPC
 
+from .mode import FrameMode
 
-class FrameModeVPC(ttk.Frame):
+
+class FrameModeVPC(FrameMode, ttk.Frame):
     def __init__(self, master:tk.Widget):
         super().__init__(master)
 

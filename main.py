@@ -73,9 +73,12 @@ class Application(ThemedTk):
         duration = self.f_simu.get()
 
         with Respirator("plot.txt", mode, patient, duration) as respi:
+            self.f_graph.init()
+            self.f_graph.add(respi.as_array())
             for values in respi.loop():
-                self.f_graph.draw_one_time(values)
-        self.f_graph.draw_from_file("plot.txt")
+                self.f_graph.add(values)
+            self.f_graph.show()
+        # self.f_graph.draw_from_file("plot.txt")
 
         self.configure(cursor="arrow")
 

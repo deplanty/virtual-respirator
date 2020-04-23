@@ -5,8 +5,10 @@ from tkinter import ttk
 from src.frames.views.modes import ViewModeVSAI
 from src.objects.modes import VSAI
 
+from .mode import FrameMode
 
-class FrameModeVSAI(ttk.Frame):
+
+class FrameModeVSAI(FrameMode, ttk.Frame):
     def __init__(self, master:tk.Widget):
         super().__init__(master)
 
