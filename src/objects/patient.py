@@ -10,13 +10,18 @@ class Pmus:
     """
 
     def __init__(self, pmus, period, ti):
-
+        # From patient
         self.pmus = pmus
         self.period = period
         self.ti = ti
 
-        self.pmus_inc = 0.7  # % of ti
-        self.pmus_dec = 1 - self.pmus_inc  # % of ti
+        # Internal variables
+        self.pmus_inc_percent = 0.7  # % of ti
+        self.pmus_dec_percent = 1 - self.pmus_inc_percent  # % of ti
+        self.pmus_inc_coeff = [0, 0, 0]
+        self.pmus_dec_coeff = [0, 0, 0]
+
+        self.compute_coefficients()
 
 
     def get(self, t:float):
@@ -34,25 +39,47 @@ class Pmus:
         t %= self.period
 
         # Increasing Pmus
-        if t <= self.ti * self.pmus_inc:
-            pt_a = [0, 0]
-            pt_b = [self.ti * self.pmus_inc, - self.pmus]
-            pt_a_ = [2 * self.ti * self.pmus_inc, 0]
-            a, b, c = self.coefficient(pt_a, pt_b, pt_a_)
+        if t <= self.ti * self.pmus_inc_percent:
+            a, b, c = self.pmus_inc_coeff
             return a * t**2 + b * t + c
         # Decreasing Pmus
         elif t < self.ti:
-            pt_c = [self.ti * (self.pmus_inc - self.pmus_dec), 0]
-            pt_b = [self.ti * self.pmus_inc, - self.pmus]
-            pt_c_ = [self.ti, 0]
-            a, b, c = self.coefficient(pt_c, pt_b, pt_c_)
+            a, b, c = self.pmus_dec_coeff
             return a * t**2 + b * t + c
         # Expiration
         else:
             return 0
 
 
-    def coefficient(self, pt_a:list, pt_b:list, pt_c:list):
+    def compute_coefficients(self):
+        """
+        Computes the coefficients of the effort equation from parameters.
+        """
+
+        pt_a = [0, 0]
+        pt_a_ = [2 * self.ti * self.pmus_inc_percent, 0]
+        pt_b = [self.ti * self.pmus_inc_percent, - self.pmus]
+        pt_c = [self.ti * (self.pmus_inc_percent - self.pmus_dec_percent), 0]
+        pt_c_ = [self.ti, 0]
+
+        self.pmus_inc_coeff = self.get_coefficients(pt_a, pt_b, pt_a_)
+        self.pmus_dec_coeff = self.get_coefficients(pt_c, pt_b, pt_c_)
+
+
+    def get_coefficients(self, pt_a:list, pt_b:list, pt_c:list):
+        """
+        Returns the coefficients of a 2nd degree equation from 3 points.
+        Equation : ax² + bx + c
+
+        Args:
+            pt_a (list): first point (x_1, y_1)
+            pt_b (list): second point (x_2, y_2)
+            pt_c (list): third point(x_3, y_3)
+
+        Returns:
+            list: a, b and c the 3 coefficients
+        """
+
         x_1, y_1 = pt_a
         x_2, y_2 = pt_b
         x_3, y_3 = pt_c
