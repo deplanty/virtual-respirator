@@ -30,22 +30,26 @@ class FrameModeVSAI(FrameMode, ttk.Frame):
         start, from_, to, step = vsai["ai"]
         self.ui.var_ai.set(start)
         self.ui.ai_spin.configure(from_=from_, to=to, increment=step)
-        start, from_, to, step = vsai["ti"]
-        self.ui.var_ti.set(start)
-        self.ui.ti_spin.configure(from_=from_, to=to, increment=step)
-        start, from_, to, step = vsai["trigger"]
-        self.ui.var_trigger.set(start)
-        self.ui.trigger_spin.configure(from_=from_, to=to, increment=step)
+        start, from_, to, step = vsai["trigger inspi"]
+        self.ui.var_trigger_inspi.set(start)
+        self.ui.trigger_inspi_spin.configure(from_=from_, to=to, increment=step)
+        start, from_, to, step = vsai["trigger expi"]
+        self.ui.var_trigger_expi.set(start)
+        self.ui.trigger_expi_spin.configure(from_=from_, to=to, increment=step)
+        start, from_, to, step = vsai["ti max"]
+        self.ui.var_ti_max.set(start)
+        self.ui.ti_max_spin.configure(from_=from_, to=to, increment=step)
 
 
     def get(self):
         """
-        Returns the VAC parameters.
+        Returns the VSAI parameters.
         """
 
         return VSAI(
             peep=self.ui.var_peep.get(),
             ai=self.ui.var_ai.get(),
-            ti=self.ui.var_ti.get(),
-            trigger=self.ui.var_trigger.get()
+            trigger_inspi=self.ui.var_trigger_inspi.get(),
+            trigger_expi=self.ui.var_trigger_expi.get(),
+            ti_max=self.ui.var_ti_max.get(),
         )

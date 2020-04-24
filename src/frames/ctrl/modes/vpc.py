@@ -43,7 +43,7 @@ class FrameModeVPC(FrameMode, ttk.Frame):
 
     def get(self):
         """
-        Returns the VAC parameters.
+        Returns the VPC parameters.
         """
 
         return VPC(

@@ -46,7 +46,6 @@ class Respirator:
                 self.flow = flow
             else:
                 self.flow = (-self.pmus + self.mode.peep - (self.volume / self.patient.c)) / self.patient.r
-                self.mode.process_trigger(self.flow, self.t)
             self.paw = self.pmus + self.patient.r * self.flow + self.volume / self.patient.c
         # Pressure control
         elif self.mode.control == "pressure":
@@ -55,10 +54,11 @@ class Respirator:
                 self.paw = paw
             else:
                 self.paw = self.mode.peep
-                self.mode.process_trigger(self.flow, self.t)
             self.flow = (self.paw - self.pmus - (self.volume / self.patient.c)) / self.patient.r
         # Volume
         self.volume += self.flow * self.t_step
+        # Trigger
+        self.mode.process_trigger(self.flow, self.t)
 
         # Next step
         array = self.as_array()
