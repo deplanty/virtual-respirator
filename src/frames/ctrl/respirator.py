@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from src.frames.views import ViewRespirator
-from src.frames.ctrl.modes import FrameModeVAC, FrameModeVPC, FrameModeVSAI
+from src.frames.ctrl.modes import FrameModeCPAP, FrameModeVAC, FrameModeVPC, FrameModeVSAI
 
 
 class FrameRespirator(ttk.LabelFrame):
@@ -15,6 +15,7 @@ class FrameRespirator(ttk.LabelFrame):
         self.frame = None
 
         self.mode_frames = {
+            "CPAP": FrameModeCPAP(self.ui.mode_f_params),
             "VAC": FrameModeVAC(self.ui.mode_f_params),
             "VPC": FrameModeVPC(self.ui.mode_f_params),
             "VSAI": FrameModeVSAI(self.ui.mode_f_params)
@@ -70,4 +71,3 @@ class FrameRespirator(ttk.LabelFrame):
         """
 
         return self.frame.get()
-
