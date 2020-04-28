@@ -15,9 +15,12 @@ class Application(ThemedTk):
     def __init__(self):
         # Themes : arc, breeze, equilux, radiance
         super().__init__()
-        self.configure(theme="arc")
 
-        self.var_theme = tk.StringVar(self, "arc")
+        with open("resources/config/ui.json") as fid:
+            self.ui_config = json.load(fid)
+
+        self.configure(theme=self.ui_config["theme"])
+        self.var_theme = tk.StringVar(self, self.ui_config["theme"])
 
         self.withdraw()
         self.title("Simulateur")
@@ -47,7 +50,12 @@ class Application(ThemedTk):
         """
 
         def set_theme(*args):
-            self.configure(theme=self.var_theme.get())
+            theme = self.var_theme.get()
+            self.ui_config["theme"] = theme
+            with open("resources/config/ui.json", "w") as fid:
+                json.dump(self.ui_config, fid, indent=4)
+
+            self.configure(theme=theme)
 
         self.menubar = tk.Menu(self)
         self.menu_edit = tk.Menu(self.menubar, tearoff=0)
