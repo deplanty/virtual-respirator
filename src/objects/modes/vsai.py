@@ -23,7 +23,7 @@ class VSAI(RespiMode):
 
         self.flow_max = 0
         self.t_start_inspi = 0  # (s)
-        self.state = "inspi"
+        self.state = "expi"
 
 
     def get(self, t:float):

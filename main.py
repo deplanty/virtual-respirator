@@ -76,9 +76,9 @@ class Application(ThemedTk):
         duration = self.f_simu.get()
 
         # Process simulation
-        respi = Respirator(patient, mode, duration)
+        respi = Respirator(patient, mode)
         self.f_graph.init(respi.as_array())
-        for values in respi.loop():
+        for values in respi.loop(duration):
             self.f_graph.add(values)
         self.f_graph.show()
 

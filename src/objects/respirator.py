@@ -10,13 +10,11 @@ class Respirator:
     Args:
         patient (Patient): patient used
         mode (RespiMode): respiratory mode used
-        t_max (float): duration of the simulation
         t_step (float): step between two time values
     """
 
-    def __init__(self, patient:Patient, mode:RespiMode, t_max:float, t_step:float=0.02):
+    def __init__(self, patient:Patient, mode:RespiMode, t_step:float=0.02):
         self.t = 0
-        self.t_max = t_max
         self.t_step = t_step
         self.flow = 0
         self.volume = mode.peep * patient.c
@@ -77,13 +75,16 @@ class Respirator:
         return [self.t, self.paw, self.flow * 60, self.volume * 1000, self.pmus]
 
 
-    def loop(self):
+    def loop(self, t_max):
         """
         Loop over the simulation as a generator.
+
+        Args:
+            t_max (float): duration of the simulation
 
         Returns:
             list: time, paw, flow volume and pmus
         """
 
-        while self.t < self.t_max:
+        while self.t < t_max:
             yield self.next()
