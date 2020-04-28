@@ -66,14 +66,12 @@ class VSAI(RespiMode):
                 self.flow_max = flow
             # Get 25% of flow peak
             else:
-                print(flow, self.flow_max)
-                # TODO: Change way to end expi
+                # TODO: Find a better way to end expi
                 if flow <= self.trigger_expi * self.flow_max:
-                    print("EXPIIIIIIIIII")
                     self.t_start_inspi = -float("inf")
                     self.state = "expi"
 
-        if self.state == "expi":
+        elif self.state == "expi":
             if flow >= self.trigger_inspi:
                 self.t_start_inspi = t
                 self.flow_max = 0
