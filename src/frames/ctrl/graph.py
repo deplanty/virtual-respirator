@@ -21,16 +21,19 @@ class FrameGraph(ttk.Frame):
         Initializes the graph in the window.
         """
 
+        def math(label):
+            label = label.replace(" ", "\\;")
+            return "$\\mathrm{%s}$" % label
+
         self.axes = self.ui.fig.subplots(4, 1, sharex=True)
         self.ui.fig.tight_layout()
         self.ui.fig.subplots_adjust(hspace=0.15)
 
-        self.axes[0].set_title("Courbes théoriques")
-        self.axes[0].set_ylabel("Paw (cmH2O)")
-        self.axes[1].set_ylabel("Débit (l/min)")
-        self.axes[2].set_ylabel("Volume (ml)")
-        self.axes[3].set_ylabel("Pmus (cmH2O)")
-        self.axes[3].set_xlabel("Time (s)")
+        self.axes[0].set_ylabel(math("P_{aw} (cm H_{2}O)"))
+        self.axes[1].set_ylabel(math("Débit (l/min)"))
+        self.axes[2].set_ylabel(math("Volume (ml)"))
+        self.axes[3].set_ylabel(math("P_{mus} (cm H_{2}O)"))
+        self.axes[3].set_xlabel(math("Temps (s)"))
 
         for ax in self.axes:
             ax.grid(True, linestyle="dashed")
