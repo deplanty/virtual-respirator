@@ -1,4 +1,5 @@
 import json
+import tkinter as tk
 from tkinter import ttk
 from ttkthemes import ThemedTk
 
@@ -15,6 +16,8 @@ class Application(ThemedTk):
         # Themes : arc, breeze, equilux, radiance
         super().__init__()
         self.configure(theme="arc")
+
+        self.var_theme = tk.StringVar(self, "arc")
 
         self.withdraw()
         self.title("Simulateur")
@@ -42,6 +45,21 @@ class Application(ThemedTk):
         """
         Sets-up frames in the mainwindow.
         """
+
+        def set_theme(*args):
+            self.configure(theme=self.var_theme.get())
+
+        self.menubar = tk.Menu(self)
+        self.menu_edit = tk.Menu(self.menubar, tearoff=0)
+        self.menu_edit_theme = tk.Menu(self.menu_edit, tearoff=0)
+        self.menu_edit_theme.add_radiobutton(label="Arc", value="arc", variable=self.var_theme, command=set_theme)
+        self.menu_edit_theme.add_radiobutton(label="Breeze", value="breeze", variable=self.var_theme, command=set_theme)
+        self.menu_edit_theme.add_radiobutton(label="Equilux", value="equilux", variable=self.var_theme, command=set_theme)
+        self.menu_edit_theme.add_radiobutton(label="Radiance", value="radiance", variable=self.var_theme, command=set_theme)
+
+        self.menubar.add_cascade(label="Edition", menu=self.menu_edit)
+        self.menu_edit.add_cascade(label="Theme", menu=self.menu_edit_theme)
+        self.config(menu=self.menubar)
 
         f_params = ttk.Frame(self)
         f_params.pack(side="left", fill="y")
