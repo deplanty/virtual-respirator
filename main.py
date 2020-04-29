@@ -49,6 +49,8 @@ class Application(ThemedTk):
         Sets-up frames in the mainwindow.
         """
 
+        # Menubar
+
         def set_theme(*args):
             theme = self.var_theme.get()
             self.ui_config["theme"] = theme
@@ -58,15 +60,24 @@ class Application(ThemedTk):
             self.configure(theme=theme)
 
         self.menubar = tk.Menu(self)
+        self.menu_file = tk.Menu(self.menubar, tearoff=0)
+        self.menubar.add_cascade(label="Fichier", menu=self.menu_file)
+        self.menu_file.add_command(label="Nouveau")
+        self.menu_file.add_command(label="Ouvrir ...")
+        self.menu_file.add_command(label="Enregistrer")
+        self.menu_file.add_command(label="Enregistrer sous ...")
+        self.menu_file.add_separator()
+        self.menu_file.add_command(label="Exporter ...")
+        self.menu_file.add_separator()
+        self.menu_file.add_command(label="Quitter")
+        self.menubar.add_cascade(label="Edition", menu=self.menu_edit)
         self.menu_edit = tk.Menu(self.menubar, tearoff=0)
         self.menu_edit_theme = tk.Menu(self.menu_edit, tearoff=0)
+        self.menu_edit.add_cascade(label="Theme", menu=self.menu_edit_theme)
         self.menu_edit_theme.add_radiobutton(label="Arc", value="arc", variable=self.var_theme, command=set_theme)
         self.menu_edit_theme.add_radiobutton(label="Breeze", value="breeze", variable=self.var_theme, command=set_theme)
         self.menu_edit_theme.add_radiobutton(label="Equilux", value="equilux", variable=self.var_theme, command=set_theme)
         self.menu_edit_theme.add_radiobutton(label="Radiance", value="radiance", variable=self.var_theme, command=set_theme)
-
-        self.menubar.add_cascade(label="Edition", menu=self.menu_edit)
-        self.menu_edit.add_cascade(label="Theme", menu=self.menu_edit_theme)
         self.config(menu=self.menubar)
 
         f_params = ttk.Frame(self)
