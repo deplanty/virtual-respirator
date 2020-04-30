@@ -42,7 +42,7 @@ class VSAI(RespiMode):
 
         if self.state == "inspi":
             if t_cycle < self.ti_max:
-                return self.ai
+                return self.peep + self.ai
             else:
                 self.state = "expi"
                 return None
