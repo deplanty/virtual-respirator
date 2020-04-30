@@ -117,3 +117,18 @@ class Patient:
         self.c = c / 1000  # (l/cmH2O)
         self.br = br
         self.pmus = Pmus(pmus, 60/br, ti)
+
+    def get_dict(self):
+        """
+        Returns the patient parameters as a dict.
+
+        Returns:
+            dict: patient parameters
+        """
+
+        return {
+            "r": self.r,
+            "c": self.c,
+            "br": self.br,
+            "pmus": self.pmus.pmus
+        }

@@ -141,24 +141,39 @@ class Application(ThemedTk):
         Saves the simulation parameters in a new file.
         """
 
+        # Asks where to save the file
+        filename = tk.filedialog.asksaveasfilename(
+            filetypes=[("Virtual respirator simulation", "*.vrs"), ("All files", "*.*")],
+            defaultextension=".vrs"
+        )
+        if not filename:
+            return
+
+        # Get data
         patient = self.f_patient.get()
         modes = self.f_respi.mode_frames
-        parameters = self.f_simu.get()
+        simulation = self.f_simu.get()
 
+        # Prepare data
         data = dict()
         data["patient"] = patient.get_dict()
         data["respirator"] = {
-            "mode": self.f_respi.ui.var_mode.get()
+            "mode": self.f_respi.ui.var_mode.get(),
             "modes": dict()
         }
         for name, mode in modes.items():
             mode = mode.get()
-            data["respirators"]["modes"][name] = mode.get_dict()
+            data["respirator"]["modes"][name] = mode.get_dict()
+        data["simulation"] = simulation.get_dict()
+
+        # Save file
+        with open(filename, "w") as fid:
+            json.dump(data, fid, indent=4)
 
 
     def menu_file_export(self):
         """
-        Exports the values of the simulation.
+        Exports the curves of the simulation.
         """
 
         # Asks where to save the file

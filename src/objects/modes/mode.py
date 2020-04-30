@@ -11,3 +11,7 @@ class RespiMode(ABC):
     @abstractmethod
     def process_trigger(self):
         pass
+
+    @abstractmethod
+    def get_dict(self):
+        pass

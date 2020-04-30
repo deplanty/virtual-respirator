@@ -78,3 +78,20 @@ class VPC(RespiMode):
             if flow >= self.trigger:
                 self.t_start_inspi = t
                 self.state = "inspi"
+
+
+    def get_dict(self):
+        """
+        Returns the mode parameters as a dict.
+
+        Returns:
+            dict: VAC parameters
+        """
+
+        return {
+            "peep": self.peep,
+            "p support": self.p_support,
+            "ti": self.ti,
+            "br": self.br,
+            "trigger": self.trigger
+        }
