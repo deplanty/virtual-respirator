@@ -128,6 +128,9 @@ class Application(ThemedTk):
     def save(self, filename):
         """
         Saves the current parameters in a file.
+
+        Args:
+            filename (str): path to file
         """
 
         # Prepare data
@@ -149,6 +152,29 @@ class Application(ThemedTk):
             title="Sauvegarde",
             message="Fichier enregistré avec succès."
         )
+
+
+    def load(self, filename):
+        """
+        Loads the parameters from a file.
+
+        Args:
+            filename (str): path to file
+        """
+
+        # Get data
+        with open(filename) as fid:
+            data = json.load(fid)
+
+        # Set data
+        self.f_patient.set(**data["patient"])
+        self.f_respi.ui.var_mode.set(data["respirator"]["mode"])
+        for name, parameters in data["respirator"]["modes"].items():
+            self.f_respi.mode_frames[name].set(**parameters)
+        self.f_simu.set(**data["simulation"])
+
+        self.var_filename.set(filename)
+        self.f_graph.set_default()
 
 
     def btn_simulate(self):
@@ -200,18 +226,7 @@ class Application(ThemedTk):
         if not filename:
             return
 
-        # Get data
-        with open(filename) as fid:
-            data = json.load(fid)
-
-        # Set data
-        self.f_patient.set(**data["patient"])
-        self.f_respi.ui.var_mode.set(data["respirator"]["mode"])
-        for name, parameters in data["respirator"]["modes"].items():
-            self.f_respi.mode_frames[name].set(**parameters)
-        self.f_simu.set(**data["simulation"])
-
-        self.var_filename.set(filename)
+        self.load(filename)
 
 
     def menu_file_save(self, *args):
