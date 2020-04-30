@@ -10,12 +10,10 @@ class Respirator:
     Args:
         patient (Patient): patient used
         mode (RespiMode): respiratory mode used
-        t_step (float): step between two time values
     """
 
-    def __init__(self, patient:Patient, mode:RespiMode, t_step:float=0.02):
+    def __init__(self, patient:Patient, mode:RespiMode):
         self.t = 0
-        self.t_step = t_step
         self.flow = 0
         self.volume = mode.peep * patient.c
         self.paw = mode.peep
@@ -29,9 +27,12 @@ class Respirator:
         return self.patient.pmus.get(self.t)
 
 
-    def next(self):
+    def next(self, t_step):
         """
         Computes the parameters for the current time.
+
+        Args:
+            t_step (float): time step
 
         Returns:
             list: time, paw, flow, volume and pmus
@@ -54,17 +55,17 @@ class Respirator:
                 self.paw = self.mode.peep
             self.flow = (self.paw - self.pmus - (self.volume / self.patient.c)) / self.patient.r
         # Volume
-        self.volume += self.flow * self.t_step
+        self.volume += self.flow * t_step
         # Trigger
         self.mode.process_trigger(self.flow, self.t)
 
         # Next step
-        array = self.as_array()
-        self.t += self.t_step
+        array = self.get_array()
+        self.t += t_step
         return array
 
 
-    def as_array(self):
+    def get_array(self):
         """
         Returns the values as an array.
 
@@ -75,16 +76,27 @@ class Respirator:
         return [self.t, self.paw, self.flow * 60, self.volume * 1000, self.pmus]
 
 
-    def loop(self, t_max):
+    def get_header(self):
+        """
+        Returns the header and units of the returned values.
+
+        Returns:
+            list: Time, Paw, Flow, Volume and Pmus
+        """
+
+        return ["Temps (s)", "Paw (cmH2O)", "Débit (l/min)", "Volume (ml)", "Pmus (cmH2O)"]
+
+    def loop(self, t_max:float, t_step:float=0.02):
         """
         Loop over the simulation as a generator.
 
         Args:
             t_max (float): duration of the simulation
+            t_step (float): time step
 
         Returns:
             list: time, paw, flow volume and pmus
         """
 
         while self.t < t_max:
-            yield self.next()
+            yield self.next(t_step)
