@@ -1,5 +1,6 @@
 import csv
 import json
+import os
 import tkinter as tk
 import tkinter.filedialog
 from tkinter import ttk
@@ -20,14 +21,17 @@ class Application(ThemedTk):
         with open("resources/config/ui.json") as fid:
             self.ui_config = json.load(fid)
 
+        self.title_pattern = "Simulateur - {filename}"
         self.var_theme = tk.StringVar(self, self.ui_config["theme"])
+        self.var_filename = tk.StringVar(self, "Nouveau")
 
         self.withdraw()
-        self.title("Simulateur")
+        self.cmd_set_title()
         self.iconbitmap(default="resources/images/icon.ico")
         self.configure(theme=self.ui_config["theme"])
         self.setup_style()
         self.setup_ui()
+        self.event_ui()
         self.state("zoomed")
         self.deiconify()
 
@@ -66,12 +70,12 @@ class Application(ThemedTk):
         self.menubar.add_cascade(label="Fichier", menu=self.menu_file)
         self.menu_file.add_command(label="Nouveau", command=self.menu_file_new)
         self.menu_file.add_command(label="Ouvrir ...", command=self.menu_file_open)
-        self.menu_file.add_command(label="Enregistrer")
+        self.menu_file.add_command(label="Enregistrer", command=self.menu_file_save)
         self.menu_file.add_command(label="Enregistrer sous ...", command=self.menu_file_saveas)
         self.menu_file.add_separator()
         self.menu_file.add_command(label="Exporter ...", command=self.menu_file_export)
         self.menu_file.add_separator()
-        self.menu_file.add_command(label="Quitter")
+        self.menu_file.add_command(label="Quitter", command=self.quit)
         self.menu_edit = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label="Edition", menu=self.menu_edit)
         self.menu_edit_theme = tk.Menu(self.menu_edit, tearoff=0)
@@ -98,6 +102,49 @@ class Application(ThemedTk):
         self.separator.pack(side="left", fill="y")
         self.f_graph = FrameGraph(self)
         self.f_graph.pack(side="left", fill="both", expand=True)
+
+
+    def event_ui(self):
+        """
+        Sets the events in the UI.
+        """
+
+        self.var_filename.trace("w", self.cmd_set_title)
+
+
+    def cmd_set_title(self, *args):
+        """
+        Sets title from filename.
+        """
+
+        filename = os.path.basename(self.var_filename.get())
+        self.title(self.title_pattern.format(filename=filename))
+
+
+    def save(self, filename):
+        """
+        Saves the current parameters in a file.
+        """
+
+        # Prepare data
+        data = {
+            "patient": self.f_patient.get_dict(),
+            "respirator": {
+                "mode": self.f_respi.ui.var_mode.get(),
+                "modes": {name: mode.get_dict() for name, mode in self.f_respi.mode_frames.items()}
+            },
+            "simulation": self.f_simu.get_dict()
+        }
+
+        # Save in file
+        with open(filename, "w") as fid:
+            json.dump(data, fid, indent=4)
+        self.var_filename.set(filename)
+
+        tk.messagebox.showinfo(
+            title="Sauvegarde",
+            message="Fichier enregistré avec succès."
+        )
 
 
     def btn_simulate(self):
@@ -130,6 +177,7 @@ class Application(ThemedTk):
         Resets all the values.
         """
 
+        self.var_filename.set("Nouveau")
         self.f_patient.set_default()
         self.f_respi.set_default()
         self.f_simu.set_default()
@@ -159,6 +207,18 @@ class Application(ThemedTk):
             self.f_respi.mode_frames[name].set(**parameters)
         self.f_simu.set(**data["simulation"])
 
+        self.var_filename.set(filename)
+
+
+    def menu_file_save(self):
+        """
+        Saves the current simulation file file.
+        """
+
+        if self.var_filename.get() != "Nouveau":
+            self.save(self.var_filename.get())
+        else:
+            self.menu_file_saveas()
 
     def menu_file_saveas(self):
         """
@@ -173,23 +233,7 @@ class Application(ThemedTk):
         if not filename:
             return
 
-        # Get data
-        modes = self.f_respi.mode_frames
-
-        # Prepare data
-        data = dict()
-        data["patient"] = self.f_patient.get_dict()
-        data["respirator"] = {
-            "mode": self.f_respi.ui.var_mode.get(),
-            "modes": dict()
-        }
-        for name, mode in modes.items():
-            data["respirator"]["modes"][name] = mode.get_dict()
-        data["simulation"] = self.f_simu.get_dict()
-
-        # Save file
-        with open(filename, "w") as fid:
-            json.dump(data, fid, indent=4)
+        self.save(filename)
 
 
     def menu_file_export(self):
