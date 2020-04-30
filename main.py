@@ -1,4 +1,5 @@
 import csv
+import glob
 import json
 import os
 import tkinter as tk
@@ -84,7 +85,11 @@ class Application(ThemedTk):
         self.menu_edit_theme.add_radiobutton(label="Breeze", value="breeze", variable=self.var_theme, command=set_theme)
         self.menu_edit_theme.add_radiobutton(label="Equilux", value="equilux", variable=self.var_theme, command=set_theme)
         self.menu_edit_theme.add_radiobutton(label="Radiance", value="radiance", variable=self.var_theme, command=set_theme)
+        self.menu_presets = tk.Menu(self.menubar, tearoff=0)
+        self.menubar.add_cascade(label="Préselection", menu=self.menu_presets)
         self.config(menu=self.menubar)
+
+        self.set_presets()
 
         # Elements
         f_params = ttk.Frame(self)
@@ -114,6 +119,26 @@ class Application(ThemedTk):
         self.bind("<Control-s>", self.menu_file_save)
         self.bind("<Control-S>", self.menu_file_saveas)
         self.var_filename.trace("w", self.cmd_set_title)
+
+
+    def set_presets(self):
+        """
+        Sets presets in the menu bar.
+        """
+
+        with open("resources/presets/patients.json", encoding="utf-8") as fid:
+            patients = json.load(fid)
+
+        for status in patients:
+            menu = tk.Menu(self.menubar, tearoff=0)
+            for name, params in patients[status].items():
+                menu.add_command(label=name, command=lambda params=params, *args: self.f_patient.set(**params))
+            self.menu_presets.add_cascade(label=status, menu=menu)
+
+        list_vrs = glob.glob("resources/presets/*.vrs")
+        for filename in list_vrs:
+            name, _ = os.path.splitext(os.path.basename(filename))
+            self.menu_presets.add_command(label=name, command=lambda filename=filename: self.load(filename))
 
 
     def cmd_set_title(self, *args):

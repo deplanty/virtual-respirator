@@ -1,0 +1,62 @@
+{
+    "Patient passif": {
+        "Normal": {
+            "r": 5,
+            "c": 60,
+            "br": 20,
+            "ti": 0.8,
+            "pmus": 0
+        },
+        "Obstructif modéré": {
+            "r": 10,
+            "c": 60,
+            "br": 20,
+            "ti": 0.8,
+            "pmus": 0
+        },
+        "Obstructif sévère": {
+            "r": 20,
+            "c": 60,
+            "br": 20,
+            "ti": 0.8,
+            "pmus": 0
+        },
+        "Restrictif modéré": {
+            "r": 5,
+            "c": 40,
+            "br": 20,
+            "ti": 0.8,
+            "pmus": 0
+        },
+        "Rsestrictif sévère": {
+            "r": 5,
+            "c": 20,
+            "br": 20,
+            "ti": 0.8,
+            "pmus": 0
+        }
+    },
+    "Patient actif": {
+        "Effort faible": {
+            "r": 5,
+            "c": 60,
+            "br": 20,
+            "ti": 0.8,
+            "pmus": 5
+        },
+        "Effort modéré": {
+            "r": 5,
+            "c": 60,
+            "br": 20,
+            "ti": 0.8,
+            "pmus": 10
+        },
+        "Effort élevé": {
+            "r": 5,
+            "c": 60,
+            "br": 20,
+            "ti": 0.8,
+            "pmus": 20
+        }
+    }
+}

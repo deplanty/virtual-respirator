@@ -1,0 +1,43 @@
+{
+    "patient": {
+        "r": 25,
+        "c": 60,
+        "br": 25,
+        "ti": 0.8,
+        "pmus": 3
+    },
+    "respirator": {
+        "mode": "VSAI",
+        "modes": {
+            "CPAP": {
+                "peep": 5
+            },
+            "VAC": {
+                "peep": 5,
+                "vt": 400,
+                "flow": 60,
+                "br": 20,
+                "pause_inspi": 0.2,
+                "trigger": 1.0
+            },
+            "VPC": {
+                "peep": 5,
+                "p_support": 12,
+                "ti": 0.8,
+                "br": 20,
+                "trigger": 1.0
+            },
+            "VSAI": {
+                "peep": 5,
+                "ai": 12,
+                "trigger_inspi": 2.0,
+                "trigger_expi": 25.0,
+                "ti_max": 1.0
+            }
+        }
+    },
+    "simulation": {
+        "t_max": 10.0,
+        "t_step": 0.02
+    }
+}
