@@ -68,10 +68,10 @@ class Application(ThemedTk):
         self.menubar = tk.Menu(self)
         self.menu_file = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label="Fichier", menu=self.menu_file)
-        self.menu_file.add_command(label="Nouveau", command=self.menu_file_new)
-        self.menu_file.add_command(label="Ouvrir ...", command=self.menu_file_open)
-        self.menu_file.add_command(label="Enregistrer", command=self.menu_file_save)
-        self.menu_file.add_command(label="Enregistrer sous ...", command=self.menu_file_saveas)
+        self.menu_file.add_command(label="Nouveau", command=self.menu_file_new, accelerator="Ctrl+N")
+        self.menu_file.add_command(label="Ouvrir ...", command=self.menu_file_open, accelerator="Ctrl+O")
+        self.menu_file.add_command(label="Enregistrer", command=self.menu_file_save, accelerator="Ctrl+S")
+        self.menu_file.add_command(label="Enregistrer sous ...", command=self.menu_file_saveas, accelerator="Ctrl+Shift+S")
         self.menu_file.add_separator()
         self.menu_file.add_command(label="Exporter ...", command=self.menu_file_export)
         self.menu_file.add_separator()
@@ -109,6 +109,10 @@ class Application(ThemedTk):
         Sets the events in the UI.
         """
 
+        self.bind("<Control-n>", self.menu_file_new)
+        self.bind("<Control-o>", self.menu_file_open)
+        self.bind("<Control-s>", self.menu_file_save)
+        self.bind("<Control-S>", self.menu_file_saveas)
         self.var_filename.trace("w", self.cmd_set_title)
 
 
@@ -172,7 +176,7 @@ class Application(ThemedTk):
         self.configure(cursor="arrow")
 
 
-    def menu_file_new(self):
+    def menu_file_new(self, *args):
         """
         Resets all the values.
         """
@@ -184,7 +188,7 @@ class Application(ThemedTk):
         self.f_graph.set_default()
 
 
-    def menu_file_open(self):
+    def menu_file_open(self, *args):
         """
         Opens a virtual respirator simulation file.
         """
@@ -210,7 +214,7 @@ class Application(ThemedTk):
         self.var_filename.set(filename)
 
 
-    def menu_file_save(self):
+    def menu_file_save(self, *args):
         """
         Saves the current simulation file file.
         """
@@ -220,7 +224,7 @@ class Application(ThemedTk):
         else:
             self.menu_file_saveas()
 
-    def menu_file_saveas(self):
+    def menu_file_saveas(self, *args):
         """
         Saves the simulation parameters in a new file.
         """
@@ -236,7 +240,7 @@ class Application(ThemedTk):
         self.save(filename)
 
 
-    def menu_file_export(self):
+    def menu_file_export(self, *args):
         """
         Exports the curves of the simulation.
         """
