@@ -67,7 +67,7 @@ class Application(ThemedTk):
         self.menu_file.add_command(label="Nouveau", command=self.menu_file_new)
         self.menu_file.add_command(label="Ouvrir ...")
         self.menu_file.add_command(label="Enregistrer")
-        self.menu_file.add_command(label="Enregistrer sous ...")
+        self.menu_file.add_command(label="Enregistrer sous ...", command=self.menu_file_saveas)
         self.menu_file.add_separator()
         self.menu_file.add_command(label="Exporter ...", command=self.menu_file_export)
         self.menu_file.add_separator()
@@ -112,12 +112,12 @@ class Application(ThemedTk):
         # Get simulation parameters
         patient = self.f_patient.get()
         mode = self.f_respi.get()
-        duration = self.f_simu.get()
+        simulation = self.f_simu.get()
 
         # Process simulation
         respi = Respirator(patient, mode)
         self.f_graph.init(respi.get_array())
-        for values in respi.loop(duration):
+        for values in respi.loop(simulation.t_max, simulation.t_step):
             self.f_graph.add(values)
         self.f_graph.show()
 
@@ -134,6 +134,26 @@ class Application(ThemedTk):
         self.f_respi.set_default()
         self.f_simu.set_default()
         self.f_graph.set_default()
+
+
+    def menu_file_saveas(self):
+        """
+        Saves the simulation parameters in a new file.
+        """
+
+        patient = self.f_patient.get()
+        modes = self.f_respi.mode_frames
+        parameters = self.f_simu.get()
+
+        data = dict()
+        data["patient"] = patient.get_dict()
+        data["respirator"] = {
+            "mode": self.f_respi.ui.var_mode.get()
+            "modes": dict()
+        }
+        for name, mode in modes.items():
+            mode = mode.get()
+            data["respirators"]["modes"][name] = mode.get_dict()
 
 
     def menu_file_export(self):
