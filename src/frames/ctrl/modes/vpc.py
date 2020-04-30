@@ -55,6 +55,23 @@ class FrameModeVPC(FrameMode, ttk.Frame):
         )
 
 
+    def get_dict(self):
+        """
+        Returns the mode parameters as a dict.
+
+        Returns:
+            dict: VAC parameters
+        """
+
+        return {
+            "peep": self.ui.var_peep.get(),
+            "p_support": self.ui.var_p_support.get(),
+            "ti": self.ui.var_ti.get(),
+            "br": self.ui.var_br.get(),
+            "trigger": self.ui.var_trigger.get()
+        }
+
+
     def set(self, **kwargs):
         """
         Sets the VPC parameters.

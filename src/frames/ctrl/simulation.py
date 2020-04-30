@@ -20,8 +20,8 @@ class FrameSimuation(ttk.LabelFrame):
         Sets the default values and limits for the variables.
         """
 
-        self.ui.var_time.set(10)
-        self.ui.time_spin.configure(from_=1, to=120, increment=1)
+        self.ui.var_time.set(10.0)
+        self.ui.time_spin.configure(from_=1, to=120, increment=0.5)
         self.ui.var_step.set(0.02)
         self.ui.step_spin.configure(from_=0.01, to=1, increment=0.01)
 
@@ -37,10 +37,24 @@ class FrameSimuation(ttk.LabelFrame):
         )
 
 
-    def set(self, simulation:Simulation):
+    def get_dict(self):
+        """
+        Returns the simulation parameters as a dict.
+
+        Returns:
+            dict: simulation parameters
+        """
+
+        return {
+            "t_max": self.ui.var_time.get(),
+            "t_step": self.ui.var_step.get()
+        }
+
+
+    def set(self, **kwargs):
         """
         Sets simulation parameters on frame.
         """
 
-        self.ui.var_time.set(simulation.t_max)
-        self.ui.var_step.set(simulation.t_step)
+        self.ui.var_time.set(kwargs["t_max"])
+        self.ui.var_step.set(kwargs["t_step"])

@@ -6,7 +6,7 @@ from tkinter import ttk
 from ttkthemes import ThemedTk
 
 from src.frames.ctrl import FrameGraph, FramePatient, FrameRespirator, FrameSimuation
-from src.objects import Patient, Respirator, Simulation
+from src.objects import Respirator
 
 
 with open(".mpp_config") as fid:
@@ -153,15 +153,11 @@ class Application(ThemedTk):
             data = json.load(fid)
 
         # Set data
-        patient = Patient(**data["patient"])
-        self.f_patient.set(patient)
-
+        self.f_patient.set(**data["patient"])
         self.f_respi.ui.var_mode.set(data["respirator"]["mode"])
         for name, parameters in data["respirator"]["modes"].items():
             self.f_respi.mode_frames[name].set(**parameters)
-
-        simulation = Simulation(**data["simulation"])
-        self.f_simu.set(simulation)
+        self.f_simu.set(**data["simulation"])
 
 
     def menu_file_saveas(self):
@@ -178,21 +174,18 @@ class Application(ThemedTk):
             return
 
         # Get data
-        patient = self.f_patient.get()
         modes = self.f_respi.mode_frames
-        simulation = self.f_simu.get()
 
         # Prepare data
         data = dict()
-        data["patient"] = patient.get_dict()
+        data["patient"] = self.f_patient.get_dict()
         data["respirator"] = {
             "mode": self.f_respi.ui.var_mode.get(),
             "modes": dict()
         }
         for name, mode in modes.items():
-            mode = mode.get()
             data["respirator"]["modes"][name] = mode.get_dict()
-        data["simulation"] = simulation.get_dict()
+        data["simulation"] = self.f_simu.get_dict()
 
         # Save file
         with open(filename, "w") as fid:

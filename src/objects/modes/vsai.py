@@ -76,20 +76,3 @@ class VSAI(RespiMode):
                 self.t_start_inspi = t
                 self.flow_max = 0
                 self.state = "inspi"
-
-
-    def get_dict(self):
-        """
-        Returns the mode parameters as a dict.
-
-        Returns:
-            dict: VAC parameters
-        """
-
-        return {
-            "peep": self.peep,
-            "ai": self.ai,
-            "trigger_inspi": self.trigger_inspi,
-            "trigger_expi": self.trigger_expi,
-            "ti_max": self.ti_max
-        }

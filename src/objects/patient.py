@@ -118,19 +118,3 @@ class Patient:
         self.br = br
         self.ti = ti
         self.pmus = Pmus(pmus, 60/br, ti)
-
-    def get_dict(self):
-        """
-        Returns the patient parameters as a dict.
-
-        Returns:
-            dict: patient parameters
-        """
-
-        return {
-            "r": self.r,
-            "c": round(self.c * 1000),
-            "br": self.br,
-            "ti": self.ti,
-            "pmus": self.pmus.pmus
-        }

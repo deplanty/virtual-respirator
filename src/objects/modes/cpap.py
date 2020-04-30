@@ -31,16 +31,3 @@ class CPAP(RespiMode):
 
     def process_trigger(self, flow:float, t:float):
         pass
-
-
-    def get_dict(self):
-        """
-        Returns the mode parameters as a dict.
-
-        Returns:
-            dict: CPAP parameters
-        """
-
-        return {
-            "peep": self.peep
-        }

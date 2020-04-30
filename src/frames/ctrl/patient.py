@@ -54,13 +54,30 @@ class FramePatient(ttk.LabelFrame):
         )
 
 
-    def set(self, patient):
+    def get_dict(self):
+        """
+        Returns the patient parameters as a dict.
+
+        Returns:
+            dict: patient parameters
+        """
+
+        return {
+            "r": self.ui.var_r.get(),
+            "c": self.ui.var_c.get(),
+            "br": self.ui.var_br.get(),
+            "ti": self.ui.var_ti.get(),
+            "pmus": self.ui.var_pmus.get()
+        }
+
+
+    def set(self, **kwargs):
         """
         Sets the patient parameters in the frame.
         """
 
-        self.ui.var_r.set(patient.r)
-        self.ui.var_c.set(patient.c * 1000)
-        self.ui.var_br.set(patient.br)
-        self.ui.var_ti.set(patient.ti)
-        self.ui.var_pmus.set(patient.pmus.pmus)
+        self.ui.var_r.set(kwargs["r"])
+        self.ui.var_c.set(kwargs["c"])
+        self.ui.var_br.set(kwargs["br"])
+        self.ui.var_ti.set(kwargs["ti"])
+        self.ui.var_pmus.set(kwargs["pmus"])

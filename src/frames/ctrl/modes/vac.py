@@ -59,6 +59,24 @@ class FrameModeVAC(FrameMode, ttk.Frame):
         )
 
 
+    def get_dict(self):
+        """
+        Returns the mode parameters as a dict.
+
+        Returns:
+            dict: VAC parameters
+        """
+
+        return {
+            "peep": self.ui.var_peep.get(),
+            "vt": self.ui.var_vt.get(),
+            "flow": self.ui.var_flow.get(),
+            "br": self.ui.var_br.get(),
+            "pause_inspi": self.ui.var_pause_inspi.get(),
+            "trigger": self.ui.var_trigger.get()
+        }
+
+
     def set(self, **kwargs):
         """
         Sets the VAC parameters.

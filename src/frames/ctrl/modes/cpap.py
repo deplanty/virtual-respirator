@@ -38,6 +38,20 @@ class FrameModeCPAP(FrameMode, ttk.Frame):
             peep=self.ui.var_peep.get()
         )
 
+
+    def get_dict(self):
+        """
+        Returns the mode parameters as a dict.
+
+        Returns:
+            dict: CPAP parameters
+        """
+
+        return {
+            "peep": self.ui.var_peep.get()
+        }
+
+
     def set(self, **kwargs):
         """
         Sets the CPAP parameters.

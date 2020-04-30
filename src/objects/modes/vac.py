@@ -80,21 +80,3 @@ class VAC(RespiMode):
             if flow >= self.trigger:
                 self.t_start_inspi = t
                 self.state = "inspi"
-
-
-    def get_dict(self):
-        """
-        Returns the mode parameters as a dict.
-
-        Returns:
-            dict: VAC parameters
-        """
-
-        return {
-            "peep": self.peep,
-            "vt": self.vt,
-            "flow": self.flow,
-            "br": self.br,
-            "pause_inspi": self.pause_inspi,
-            "trigger": self.trigger
-        }

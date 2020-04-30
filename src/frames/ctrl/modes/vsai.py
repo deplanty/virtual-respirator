@@ -55,6 +55,23 @@ class FrameModeVSAI(FrameMode, ttk.Frame):
         )
 
 
+    def get_dict(self):
+        """
+        Returns the mode parameters as a dict.
+
+        Returns:
+            dict: VAC parameters
+        """
+
+        return {
+            "peep": self.ui.var_peep.get(),
+            "ai": self.ui.var_ai.get(),
+            "trigger_inspi": self.ui.var_trigger_inspi.get(),
+            "trigger_expi": self.ui.var_trigger_expi.get(),
+            "ti_max": self.ui.var_ti_max.get()
+        }
+
+
     def set(self, **kwargs):
         """
         Sets the VPC parameters.
