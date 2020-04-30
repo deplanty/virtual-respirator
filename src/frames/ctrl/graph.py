@@ -37,6 +37,8 @@ class FrameGraph(ttk.Frame):
 
         for ax in self.axes:
             ax.grid(True, linestyle="dashed")
+            ax.relim()
+            ax.autoscale_view()
 
 
     def set_default(self):
@@ -51,6 +53,8 @@ class FrameGraph(ttk.Frame):
         for ax in self.axes:
             for line in ax.lines:
                 line.remove()
+            ax.relim()
+            ax.autoscale_view()
         self.ui.canvas.draw()
 
 
