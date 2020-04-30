@@ -23,6 +23,6 @@ class Simulation:
         """
 
         return {
-            "t max": self.t_max,
-            "t step": self.t_step
+            "t_max": self.t_max,
+            "t_step": self.t_step
         }

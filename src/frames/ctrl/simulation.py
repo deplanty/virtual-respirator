@@ -28,10 +28,19 @@ class FrameSimuation(ttk.LabelFrame):
 
     def get(self):
         """
-        Returns the duration of the simulation.
+        Returns the simulation parameters.
         """
 
         return Simulation(
             t_max=self.ui.var_time.get(),
             t_step=self.ui.var_step.get()
         )
+
+
+    def set(self, simulation:Simulation):
+        """
+        Sets simulation parameters on frame.
+        """
+
+        self.ui.var_time.set(simulation.t_max)
+        self.ui.var_step.set(simulation.t_step)

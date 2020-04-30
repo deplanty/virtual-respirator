@@ -155,8 +155,8 @@ class Application(ThemedTk):
         # Set data
         patient = Patient(**data["patient"])
         self.f_patient.set(patient)
-
-        # simulation = Simulation(**data["simulation"])
+        simulation = Simulation(**data["simulation"])
+        self.f_simu.set(simulation)
 
 
     def menu_file_saveas(self):
