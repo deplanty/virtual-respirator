@@ -24,7 +24,8 @@ class FrameRespirator(ttk.LabelFrame):
         self.set_default()
         self.load_mode()
 
-        self.ui.mode_combo.bind("<<ComboboxSelected>>", self.load_mode)
+        # self.ui.mode_combo.bind("<<ComboboxSelected>>", self.load_mode)
+        self.ui.var_mode.trace("w", self.load_mode)
 
 
     def set_default(self):
@@ -38,6 +39,9 @@ class FrameRespirator(ttk.LabelFrame):
         modes = [name.upper() for name in modes]
         self.ui.mode_combo.configure(values=modes)
         self.ui.mode_combo.current(0)
+
+        for frame in self.mode_frames.values():
+            frame.set_default()
 
 
     def load_mode(self, *args):

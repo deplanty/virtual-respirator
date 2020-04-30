@@ -39,6 +39,21 @@ class FrameGraph(ttk.Frame):
             ax.grid(True, linestyle="dashed")
 
 
+    def set_default(self):
+        """
+        Resets the graphs to their default states.
+        """
+
+        # Remove stored data
+        self.init()
+
+        # Clear curves
+        for ax in self.axes:
+            for line in ax.lines:
+                line.remove()
+        self.ui.canvas.draw()
+
+
     def init(self, values=None):
         """
         Initializes the graph to get values from the simulation.

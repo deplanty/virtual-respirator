@@ -64,7 +64,7 @@ class Application(ThemedTk):
         self.menubar = tk.Menu(self)
         self.menu_file = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label="Fichier", menu=self.menu_file)
-        self.menu_file.add_command(label="Nouveau")
+        self.menu_file.add_command(label="Nouveau", command=self.menu_file_new)
         self.menu_file.add_command(label="Ouvrir ...")
         self.menu_file.add_command(label="Enregistrer")
         self.menu_file.add_command(label="Enregistrer sous ...")
@@ -125,6 +125,17 @@ class Application(ThemedTk):
         self.configure(cursor="arrow")
 
 
+    def menu_file_new(self):
+        """
+        Resets all the values.
+        """
+
+        self.f_patient.set_default()
+        self.f_respi.set_default()
+        self.f_simu.set_default()
+        self.f_graph.set_default()
+
+
     def menu_file_export(self):
         """
         Exports the values of the simulation.
@@ -147,14 +158,20 @@ class Application(ThemedTk):
         mode = self.f_respi.get()
         duration = self.f_simu.get()
 
-        # Process simulation
+        # Process simulation and write file
         respi = Respirator(patient, mode)
         with open(filename, "w", newline="") as fid:
+            # Init CSV Faile and graph
             writer = csv.writer(fid, delimiter=";")
             writer.writerow(respi.get_header())
             writer.writerow(respi.get_array())
+            self.f_graph.init(respi.get_array())
             for values in respi.loop(duration):
+                # Add current value
                 writer.writerow(values)
+                self.f_graph.add(values)
+            # Show graph
+            self.f_graph.show()
 
         # Change cursor back to normal
         self.configure(cursor="arrow")
