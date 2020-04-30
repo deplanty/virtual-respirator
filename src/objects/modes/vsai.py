@@ -89,7 +89,7 @@ class VSAI(RespiMode):
         return {
             "peep": self.peep,
             "ai": self.ai,
-            "ti max": self.ti_max,
-            "trigger inspi": self.trigger_inspi,
-            "trigger expi": self.trigger_expi
+            "trigger_inspi": self.trigger_inspi,
+            "trigger_expi": self.trigger_expi,
+            "ti_max": self.ti_max
         }

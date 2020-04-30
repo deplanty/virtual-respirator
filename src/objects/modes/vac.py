@@ -95,6 +95,6 @@ class VAC(RespiMode):
             "vt": self.vt,
             "flow": self.flow,
             "br": self.br,
-            "pause inspi": self.pause_inspi,
+            "pause_inspi": self.pause_inspi,
             "trigger": self.trigger
         }

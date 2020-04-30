@@ -90,7 +90,7 @@ class VPC(RespiMode):
 
         return {
             "peep": self.peep,
-            "p support": self.p_support,
+            "p_support": self.p_support,
             "ti": self.ti,
             "br": self.br,
             "trigger": self.trigger

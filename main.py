@@ -155,6 +155,11 @@ class Application(ThemedTk):
         # Set data
         patient = Patient(**data["patient"])
         self.f_patient.set(patient)
+
+        self.f_respi.ui.var_mode.set(data["respirator"]["mode"])
+        for name, parameters in data["respirator"]["modes"].items():
+            self.f_respi.mode_frames[name].set(**parameters)
+
         simulation = Simulation(**data["simulation"])
         self.f_simu.set(simulation)
 

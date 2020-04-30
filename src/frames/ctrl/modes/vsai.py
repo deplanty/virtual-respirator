@@ -53,3 +53,15 @@ class FrameModeVSAI(FrameMode, ttk.Frame):
             trigger_expi=self.ui.var_trigger_expi.get(),
             ti_max=self.ui.var_ti_max.get(),
         )
+
+
+    def set(self, **kwargs):
+        """
+        Sets the VPC parameters.
+        """
+
+        self.ui.var_peep.set(kwargs["peep"])
+        self.ui.var_ai.set(kwargs["ai"])
+        self.ui.var_trigger_inspi.set(kwargs["trigger_inspi"])
+        self.ui.var_trigger_expi.set(kwargs["trigger_expi"])
+        self.ui.var_ti_max.set(kwargs["ti_max"])

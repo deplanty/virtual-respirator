@@ -57,3 +57,16 @@ class FrameModeVAC(FrameMode, ttk.Frame):
             pause_inspi=self.ui.var_pause_inspi.get(),
             trigger=self.ui.var_trigger.get()
         )
+
+
+    def set(self, **kwargs):
+        """
+        Sets the VAC parameters.
+        """
+
+        self.ui.var_peep.set(kwargs["peep"])
+        self.ui.var_vt.set(kwargs["vt"])
+        self.ui.var_flow.set(kwargs["flow"])
+        self.ui.var_br.set(kwargs["br"])
+        self.ui.var_pause_inspi.set(kwargs["pause_inspi"])
+        self.ui.var_trigger.set(kwargs["trigger"])

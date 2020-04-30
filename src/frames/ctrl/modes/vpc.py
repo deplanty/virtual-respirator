@@ -53,3 +53,15 @@ class FrameModeVPC(FrameMode, ttk.Frame):
             br=self.ui.var_br.get(),
             trigger=self.ui.var_trigger.get()
         )
+
+
+    def set(self, **kwargs):
+        """
+        Sets the VPC parameters.
+        """
+
+        self.ui.var_peep.set(kwargs["peep"])
+        self.ui.var_p_support.set(kwargs["p_support"])
+        self.ui.var_ti.set(kwargs["ti"])
+        self.ui.var_br.set(kwargs["br"])
+        self.ui.var_trigger.set(kwargs["trigger"])

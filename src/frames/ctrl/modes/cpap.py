@@ -37,3 +37,10 @@ class FrameModeCPAP(FrameMode, ttk.Frame):
         return CPAP(
             peep=self.ui.var_peep.get()
         )
+
+    def set(self, **kwargs):
+        """
+        Sets the CPAP parameters.
+        """
+
+        self.ui.var_peep.set(kwargs["peep"])
