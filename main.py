@@ -6,7 +6,7 @@ from tkinter import ttk
 from ttkthemes import ThemedTk
 
 from src.frames.ctrl import FrameGraph, FramePatient, FrameRespirator, FrameSimuation
-from src.objects import Respirator
+from src.objects import Patient, Respirator, Simulation
 
 
 with open(".mpp_config") as fid:
@@ -65,7 +65,7 @@ class Application(ThemedTk):
         self.menu_file = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label="Fichier", menu=self.menu_file)
         self.menu_file.add_command(label="Nouveau", command=self.menu_file_new)
-        self.menu_file.add_command(label="Ouvrir ...")
+        self.menu_file.add_command(label="Ouvrir ...", command=self.menu_file_open)
         self.menu_file.add_command(label="Enregistrer")
         self.menu_file.add_command(label="Enregistrer sous ...", command=self.menu_file_saveas)
         self.menu_file.add_separator()
@@ -134,6 +134,29 @@ class Application(ThemedTk):
         self.f_respi.set_default()
         self.f_simu.set_default()
         self.f_graph.set_default()
+
+
+    def menu_file_open(self):
+        """
+        Opens a virtual respirator simulation file.
+        """
+
+        # Asks which file to open
+        filename = tk.filedialog.askopenfilename(
+            filetypes=[("Virtual respirator simulation", "*.vrs"), ("All files", "*.*")]
+        )
+        if not filename:
+            return
+
+        # Get data
+        with open(filename) as fid:
+            data = json.load(fid)
+
+        # Set data
+        patient = Patient(**data["patient"])
+        self.f_patient.set(patient)
+
+        # simulation = Simulation(**data["simulation"])
 
 
     def menu_file_saveas(self):

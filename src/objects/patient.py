@@ -116,6 +116,7 @@ class Patient:
         self.r = r  # (cmH2O/(l/s))
         self.c = c / 1000  # (l/cmH2O)
         self.br = br
+        self.ti = ti
         self.pmus = Pmus(pmus, 60/br, ti)
 
     def get_dict(self):
@@ -128,7 +129,8 @@ class Patient:
 
         return {
             "r": self.r,
-            "c": self.c,
+            "c": round(self.c * 1000),
             "br": self.br,
+            "ti": self.ti,
             "pmus": self.pmus.pmus
         }

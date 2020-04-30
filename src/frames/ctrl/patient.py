@@ -52,3 +52,15 @@ class FramePatient(ttk.LabelFrame):
             ti=self.ui.var_ti.get(),
             pmus=self.ui.var_pmus.get()
         )
+
+
+    def set(self, patient):
+        """
+        Sets the patient parameters in the frame.
+        """
+
+        self.ui.var_r.set(patient.r)
+        self.ui.var_c.set(patient.c * 1000)
+        self.ui.var_br.set(patient.br)
+        self.ui.var_ti.set(patient.ti)
+        self.ui.var_pmus.set(patient.pmus.pmus)
