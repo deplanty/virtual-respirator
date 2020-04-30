@@ -239,6 +239,7 @@ class Application(ThemedTk):
         else:
             self.menu_file_saveas()
 
+
     def menu_file_saveas(self, *args):
         """
         Saves the simulation parameters in a new file.
