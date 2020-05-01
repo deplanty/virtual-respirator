@@ -2,8 +2,12 @@
     "name": "Virtual Respirator",
     "author": "deplanty",
     "version": "0.1.4",
-    "console": true,
     "icon": "resources/images/icon.ico",
+    "resources": [
+        "resources",
+        ".mpp_config"
+    ],
+    "console": true,
     "hidden-imports": [
         "pkg_resources.py2_warn"
     ]
